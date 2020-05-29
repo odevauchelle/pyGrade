@@ -5,10 +5,10 @@ import re
 
 defaut_point_flags = ('%','%')
 
-def parse_point_string( point_string, point_flags = defaut_point_flags ):
+def ParsePointString( point_string, point_flags = defaut_point_flags ):
 
 	'''
-	points, point_string = parse_point_string( point_string, point_flags = defaut_point_flags )
+	points, point_string = ParsePointString( point_string, point_flags = defaut_point_flags )
 	'''
 
 	try :
@@ -25,15 +25,15 @@ def parse_point_string( point_string, point_flags = defaut_point_flags ):
 		return None, None
 
 
-def grade_page( page_canvas, verbose = True, point_flags = defaut_point_flags  ) :
+def GradePage( page_canvas, verbose = True, point_flags = defaut_point_flags  ) :
 	'''
-	grade = grade_page( page_canvas, verbose = True, point_flags = defaut_point_flags )
+	grade = GradePage( page_canvas, verbose = True, point_flags = defaut_point_flags )
 	'''
 	grade = 0
 
 	for string in page_canvas.strings :
 
-		points, point_string = parse_point_string( string, point_flags = point_flags )
+		points, point_string = ParsePointString( string, point_flags = point_flags )
 
 		if not points is None :
 
@@ -44,10 +44,10 @@ def grade_page( page_canvas, verbose = True, point_flags = defaut_point_flags  )
 
 	return grade
 
-def grade_document(document, verbose = False, point_flags = defaut_point_flags ) :
+def GradeDoc(document, verbose = False, point_flags = defaut_point_flags ) :
 
 	'''
-	grade = grade_document(document, verbose = False, point_flags = defaut_point_flags )
+	grade = GradeDoc(document, verbose = False, point_flags = defaut_point_flags )
 	'''
 
 	doc = PDFDocument( document )
@@ -64,7 +64,7 @@ def grade_document(document, verbose = False, point_flags = defaut_point_flags )
 		viewer.navigate( page_number + 1 )
 		viewer.render()
 
-		grade += grade_page( viewer.canvas, verbose = verbose, point_flags = point_flags )
+		grade += GradePage( viewer.canvas, verbose = verbose, point_flags = point_flags )
 
 	return grade
 
@@ -73,8 +73,8 @@ if __name__ == '__main__':
 
 
 	for point_string in ['%4%','%5', 'toto %6%hdsfouze_ç'] :
-		print( point_string, parse_point_string( point_string ) )
+		print( point_string, ParsePointString( point_string ) )
 
 	document = open('../homework/graded_homework.pdf', "rb")
 
-	print(grade_document(document))
+	print(GradeDoc(document))

@@ -27,4 +27,4 @@ __version__ = "0.0"
 
 __all__ = ['pyGrade']
 
-from .grade_document import *
+from .gradedoc import *
