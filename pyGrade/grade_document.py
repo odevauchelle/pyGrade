@@ -3,10 +3,12 @@ from pdfreader import PDFDocument, SimplePDFViewer
 import re
 
 
-def parse_point_string( point_string, point_flags = ('%','%') ):
+defaut_point_flags = ('%','%')
+
+def parse_point_string( point_string, point_flags = defaut_point_flags ):
 
 	'''
-	points, point_string = parse_point_string( point_string, point_flags = ('%','%') )
+	points, point_string = parse_point_string( point_string, point_flags = defaut_point_flags )
 	'''
 
 	try :
@@ -23,9 +25,9 @@ def parse_point_string( point_string, point_flags = ('%','%') ):
 		return None, None
 
 
-def grade_page( page_canvas, verbose = True, point_flags = ('%','%')  ) :
+def grade_page( page_canvas, verbose = True, point_flags = defaut_point_flags  ) :
 	'''
-	grade = grade_page( page_canvas, verbose = True, point_flags = ('%','%')  )
+	grade = grade_page( page_canvas, verbose = True, point_flags = defaut_point_flags )
 	'''
 	grade = 0
 
@@ -42,10 +44,10 @@ def grade_page( page_canvas, verbose = True, point_flags = ('%','%')  ) :
 
 	return grade
 
-def grade_document(document, verbose = False, point_flags = ('%','%') ) :
+def grade_document(document, verbose = False, point_flags = defaut_point_flags ) :
 
 	'''
-	grade = grade_document(document, verbose = False, point_flags = ('%','%') )
+	grade = grade_document(document, verbose = False, point_flags = defaut_point_flags )
 	'''
 
 	doc = PDFDocument( document )
