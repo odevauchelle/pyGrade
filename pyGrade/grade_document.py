@@ -57,7 +57,7 @@ def grade_document(document, verbose = False, point_flags = ('%','%') ) :
 
 		if verbose :
 			print('------------------')
-			print('Page:', page_number)
+			print('Page:', page_number + 1 )
 
 		viewer.navigate( page_number + 1 )
 		viewer.render()
