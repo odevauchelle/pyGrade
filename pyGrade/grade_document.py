@@ -1,5 +1,7 @@
 
 from pdfreader import PDFDocument, SimplePDFViewer
+import re
+
 
 def parse_point_string( point_string, point_flags = ('%','%') ):
 
@@ -8,10 +10,10 @@ def parse_point_string( point_string, point_flags = ('%','%') ):
 	'''
 
 	try :
-		point_string = point_string.split(point_flags[0])[1].split(point_flags[1])[0]
+		point_string = re.search( '.*'.join( point_flags ), point_string ).group(0)
 
 		try :
-			points = float( point_string )
+			points = float( point_string[1:-1] )
 			return points, point_string
 
 		except :
@@ -66,6 +68,10 @@ def grade_document(document, verbose = False, point_flags = ('%','%') ) :
 
 
 if __name__ == '__main__':
+
+
+	for point_string in ['%4%','%5', 'toto %6%hdsfouze_ç'] :
+		print( point_string, parse_point_string( point_string ) )
 
 	document = open('../homework/graded_homework.pdf', "rb")
 
