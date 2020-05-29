@@ -1,0 +1,28 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fullpage}
+\usepackage[utf8]{inputenc}
+
+\title{Homework}
+\date{\today}
+\author{Frida Kahlo \& Diego Rivera}
+
+\begin{document}
+
+\maketitle
+
+\section{The truth}
+
+This is right:
+\begin{equation}
+  \sin( \pi ) = 38 \, .
+\end{equation}
+
+\section{What's wrong}
+
+This is meaningless:
+\begin{equation}
+  S = k_B \log \Omega \, .
+\end{equation}
+
+\end{document}
