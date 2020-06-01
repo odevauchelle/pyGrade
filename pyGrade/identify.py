@@ -1,63 +1,52 @@
 from pdfreader import SimplePDFViewer
-from fuzzywuzzy import fuzz
+from fuzzywuzzy import fuzz, process
 import numpy as np
+import PyPDF2
 
-default_ID_keys = ['lastname', 'firstname']
+equivalent_to_space = ['.', ',', '_', '/']
 
-default_ScoreMixer = np.mean
+def GetFrontPageText( document, ID_page = 0 ) :
 
-def default_name_filter(name) :
-    return name.replace(' ', '').lower()
+    read_pdf = PyPDF2.PdfFileReader( document )
+    page = read_pdf.getPage(ID_page)
+    page_text = page.extractText()
 
-default_page_filter = default_name_filter
+    if len(page_text) == 0 :
 
-def GetMatchingScore( student, page_text, ID_keys = None, score_mixer = None, name_filter = None, page_filter = None ) :
-    '''
-    matching_score = get_matching_score( student, page_text, ID_keys = None, score_mixer = None )
-    '''
+        viewer = SimplePDFViewer( document )
+        viewer.navigate( ID_page + 1 )
+        viewer.render()
 
-    if ID_keys is None :
-        ID_keys = default_ID_keys
+        page_text = ''.join( viewer.canvas.strings )
 
-    if score_mixer is None :
-        score_mixer = default_ScoreMixer
+    return page_text.lower()
 
-    if name_filter is None :
-        name_filter = default_name_filter
-
-    if page_filter is None :
-        page_filter = default_page_filter
-
-    matching_score = []
-
-    for ID_key in ID_keys :
-
-        matching_score += [ fuzz.partial_ratio( page_filter( page_text ), name_filter( student[ID_key] ) ) ]
-
-    return score_mixer( np.array( matching_score ) )
-
-
-def IdentifyStudent( students, document, ID_page = 1, expected_number_of_students = 1 ) :
+def IdentifyStudent( students, document, ID_page = 0, expected_number_of_students = 1, minimum_score = 50 ) :
 
     '''
     student_indices = IdentifyStudent( students, document, ID_page = 1, expected_number_of_students = 1 )
     '''
+    #
+    # viewer = SimplePDFViewer( document )
+    #
+    # viewer.navigate( ID_page )
+    # viewer.render()
+    # page_text = ''.join( viewer.canvas.strings ).lower()
 
-    viewer = SimplePDFViewer( document )
+    names =  [ student['lastname'].split(' ')[-1].lower() for student in students ]
 
-    viewer.navigate( ID_page )
-    viewer.render()
-    page_text = ''.join( viewer.canvas.strings )
+    page_text = GetFrontPageText( document, ID_page = ID_page )
 
-    matching_score = []
 
-    for student in students :
+    filename_text = ' ' + document.name
 
-        matching_score += [ GetMatchingScore( student, page_text ) ]
+    for character in equivalent_to_space :
+        filename_text = filename_text.replace( character, ' ' )
 
-    # return students[ np.argsort(matching_score)[:expected_number_of_students] ]
+    winner_index = []
 
-    print( default_page_filter( page_text ) )
-    print(np.sort(matching_score)[::-1])
+    for winner in process.extract( page_text + filename_text, names, limit = expected_number_of_students  ) :
+        if winner[1] >= minimum_score :
+            winner_index += [ names.index( winner[0] ) ]
 
-    return np.argsort(matching_score)[-expected_number_of_students:]
+    return winner_index
