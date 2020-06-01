@@ -25,6 +25,7 @@ __copyright__ = "Copyright 2020"
 __license__ = "GPL"
 __version__ = "0.0"
 
-__all__ = ['pyGrade']
+__all__ = [ 'gradedoc', 'identify' ]
 
 from .gradedoc import *
+from .identify import *
