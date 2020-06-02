@@ -19,29 +19,32 @@ def GetFrontPageText( document, ID_page = 0 ) :
 
         page_text = ''.join( viewer.canvas.strings )
 
-    return page_text.lower()
+    return page_text
 
-def IdentifyStudent( students, document, ID_page = 0, expected_number_of_students = 1, minimum_score = 50 ) :
+def LastnameFilter(lastname) :
+
+    lastname_pieces = lastname.split(' ')
+    lastname = lastname_pieces[ np.argmax( [ len(piece) for piece in lastname_pieces ] ) ]
+
+    return lastname
+
+def IdentifyStudent( students, document, ID_page = 0, expected_number_of_students = 1, minimum_score = 50, debug_mode = False ) :
 
     '''
     student_indices = IdentifyStudent( students, document, ID_page = 1, expected_number_of_students = 1 )
     '''
-    #
-    # viewer = SimplePDFViewer( document )
-    #
-    # viewer.navigate( ID_page )
-    # viewer.render()
-    # page_text = ''.join( viewer.canvas.strings ).lower()
-
-    names =  [ student['lastname'].split(' ')[-1].lower() for student in students ]
+    names =  [ LastnameFilter( student['lastname'] ) for student in students ]
 
     page_text = GetFrontPageText( document, ID_page = ID_page )
-
 
     filename_text = ' ' + document.name
 
     for character in equivalent_to_space :
+
         filename_text = filename_text.replace( character, ' ' )
+
+    if debug_mode :
+        print(page_text)
 
     winner_index = []
 
