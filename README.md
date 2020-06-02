@@ -36,3 +36,12 @@ for i in grd.IdentifyStudent( students, document, expected_number_of_students = 
 >>> Kahlo
 >>> Rivera
 ```
+## Requirements
+
+- [fuzzywuzzy](https://github.com/seatgeek/fuzzywuzzy)
+- [pdfreader](https://pypi.org/project/pdfreader/)
+- [pyPDF2](https://github.com/seatgeek/fuzzywuzzy)
+
+```console
+# pip install fuzzywuzzy pdfreader pyPDF2
+```
