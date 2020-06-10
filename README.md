@@ -4,7 +4,8 @@ Count points in annotated PDF documents to help with assignment grading.
 
 ## Usage
 
-Use  [Xournal](http://xournal.sourceforge.net/) or any other PDF editor to grade the document, and save it as a PDF document. Points should appear as `%2%` or `%-1.5%` in the annotated [document](./homework/graded_homework_khalo_rivera.pdf).
+Use [Xournal](http://xournal.sourceforge.net/) or any other PDF editor ([Xournal++](https://github.com/xournalpp/xournalpp) for Max OSX)
+ to grade the document, and save it as a PDF document. Points should appear as `%2%` or `%-1.5%` in the annotated [document](./homework/graded_homework_khalo_rivera.pdf).
 
 ```python
 import pyGrade as grd
